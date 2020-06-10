@@ -1,0 +1,28 @@
+{
+  "name": "tetris",
+  "version": "0.1.0",
+  "description": "A simple Tetris clone using vue.js",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xenobyter/Tetris.git"
+  },
+  "author": "xenobyter",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/xenobyter/Tetris/issues"
+  },
+  "homepage": "https://github.com/xenobyter/Tetris#readme"
+}

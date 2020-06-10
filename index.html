@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tetris</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="vue.min.js"></script>
+  <script src="Tetromino.js" type="module"></script>
+  <script src="index.js" type="module"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="tetris">
+    <span id="grid">
+      <div
+        v-for="part in tetromino.parts"
+        id="activeTetromino"
+        :key="part.id"
+        :style="{
+          gridColumnStart: part.col,
+          gridRowStart: part.row,
+          backgroundColor: tetromino.color
+        }"
+      ></div>
+    </span>
+    <span id="ctrl"> </span>
+  </div></div>
+</body>
+</html>
