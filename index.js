@@ -7,4 +7,16 @@ let app = new Vue({
       tetromino
     }
   },
+  mounted: function() {
+      console.log("Mounted!");
+      window.addEventListener("keydown", this.moveTetromino);
+  },
+  destroyed() {
+      window.removeEventListener("keydown", this.moveTetromino);
+  },
+  methods: {
+      moveTetromino: function(event) {
+        this.tetromino.move(event);
+      }
+  },
 });
