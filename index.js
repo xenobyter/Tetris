@@ -8,7 +8,6 @@ let app = new Vue({
     }
   },
   mounted: function() {
-      console.log("Mounted!");
       window.addEventListener("keydown", this.moveTetromino);
   },
   destroyed() {
