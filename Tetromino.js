@@ -1,13 +1,9 @@
+import TYPES from "./types.js";
 export class Tetromino {
-  constructor(type = "I") {
-    this.type = type;
-    this.color = "#7cebf7";
-    this.parts = [
-      { id: 0, row: 1, col: 4 },
-      { id: 1, row: 1, col: 3 },
-      { id: 2, row: 1, col: 5 },
-      { id: 3, row: 1, col: 6 }
-    ];
+  constructor() {
+    const TYPE = Math.floor(Math.random() * 7);
+    this.color = TYPES[TYPE].color;
+    this.parts = TYPES[TYPE].parts;
   }
   /**
    * @description Move the Tetromino left, right and down
