@@ -1,117 +1,74 @@
 import TYPES from "./types.js";
+import { makeMovedTetromino, makeTurnedTetromino } from "./temp_tetromino.js";
+
 export class Tetromino {
   constructor() {
-    const TYPE = Math.floor(Math.random() * 7);
-    this.color = TYPES[TYPE].color;
-    this.parts = TYPES[TYPE].parts;
+    //TODO: [FN-15] Implement preview next Tetromino
+    this.type = Math.floor(Math.random() * 7);
+    this.color = TYPES[this.type].color;
+    this.parts = JSON.parse(JSON.stringify(TYPES[this.type].parts));
   }
   /**
    * @description Move the Tetromino left, right and down
    * @param {event} event - a keyboard-event
    */
-  move(event) {
-    const tempTetromino = [];
-    /**
-     * @description Test if the Tetromino touches a border
-     * @param {number} value - the value to test for, in other words: the border
-     * @returns {boolean} - true if border is broken
-     */
-    const _testBorders = value => {
-      return this.parts.some(part => {
-        return part.col == value;
-      });
-    };
-
+  move(event, stack) {
     switch (event.key) {
       case "ArrowLeft":
       case "4":
       case "a":
-        if (!_testBorders(1)) this.parts.forEach(part => part.col--);
+        if (this._doesFit(makeMovedTetromino(this, -1, 0), stack))
+          this.parts.forEach(part => part.col--);
         break;
       case "ArrowRight":
       case "6":
       case "d":
-        if (!_testBorders(10)) this.parts.forEach(part => part.col++);
+        if (this._doesFit(makeMovedTetromino(this, 1, 0), stack))
+          this.parts.forEach(part => part.col++);
         break;
       case "ArrowDown":
       case "2":
       case "x":
-        // try to move down and check if it would fit
-        this.parts.forEach(part => {
-          tempTetromino.push({ row: part.row + 1, col: part.col });
-        });
-        if (this._doesFit(tempTetromino))
-          tempTetromino.forEach((part, index) => {
-            this.parts[index].row = part.row;
-            this.parts[index].col = part.col;
-          });
+        if (this._doesFit(makeMovedTetromino(this, 0, 1), stack))
+          this.parts.forEach(part => part.row++);
+        // move not possible!
+        else {
+          return false;
+        }
         break;
       case "ArrowUp":
       case "8":
       case "w":
-        this._turn();
+        // if (this.color != "#fcf914") this._turn(stack);
+        if (this.color != "#fcf914") {
+          const tempTetromino = makeTurnedTetromino(this);
+          if (this._doesFit(tempTetromino, stack))
+            this.parts.forEach((part, index) => {
+              part.row = tempTetromino[index].row;
+              part.col = tempTetromino[index].col;
+            });
+        }
     }
+    return true;
   }
-
   /**
-   * @description Turn a tetromino
-   * @param {undefined}
+   * @description Checks if an intended move is possible
+   * @param {object} tempTetromino
+   * @param {object} stack
+   * @returns {boolean} true if move is possible
    */
-  _turn() {
-    const tempTetromino = [];
-    /**
-     * @description Subtract vectors of tetromino-parts
-     * @param {object} part - minuend
-     * @param {object} basis - subtrahend
-     * @returns {object} - difference vector
-     */
-    const _vectorSub = (part, basis) => {
-      return { col: part.col - basis.col, row: part.row - basis.row };
-    };
-    /**
-     * @description Add vectors of tetromino-parts
-     * @param {object} part - summand
-     * @param {object} basis - summand
-     * @returns {object} - difference vector
-     */
-    const _vectorAdd = (part, basis) => {
-      return { col: part.col + basis.col, row: part.row + basis.row };
-    };
-    tempTetromino.push({ row: this.parts[0].row, col: this.parts[0].col });
-    for (let i = 1; i < 4; i++) {
-      // normalize to parts[0]
-      const normalizedVector = _vectorSub(this.parts[i], this.parts[0]);
-      // actually turn around parts[0]
-      const turnedVector = {
-        col: -normalizedVector.row,
-        row: normalizedVector.col
-      };
-      const addedVector = _vectorAdd(this.parts[0], turnedVector);
-      // add turned vector to parts[0] which is the new col/row for parts[i]
-      tempTetromino.push({ row: addedVector.row, col: addedVector.col });
-    }
-    // Reposition if need be:
-    // Step 1: Collect corrections
-    const corr = { col: 0, row: 0 };
-    tempTetromino.forEach(part => {
-      if (part.col < 1) corr.col++;
-      if (part.col > 10) corr.col--;
-      if (part.row < 1) corr.row++;
-      if (part.row > 20) corr.row--;
+  _doesFit(tempTetromino, stack) {
+    let res = true;
+    tempTetromino.some(tPart => {
+      if (tPart.row > 20) res = false;
+      if (tPart.col < 1 || tPart.col > 10) res = false;
+      if (
+        stack.parts.some(
+          sPart => sPart.row == tPart.row && sPart.col == tPart.col
+        )
+      )
+        res = false;
     });
-    // Step 2: Correct it
-    tempTetromino.forEach(part => {
-      part.col += corr.col;
-      part.row += corr.row;
-    });
-    // if the turned Tetromino fits, actually apply it
-    if (this._doesFit(tempTetromino))
-      tempTetromino.forEach((part, index) => {
-        this.parts[index].row = part.row;
-        this.parts[index].col = part.col;
-      });
-  }
-  _doesFit(tempTetromino) {
-    return !tempTetromino.some(part => part.row > 20);
+    return res;
   }
 }

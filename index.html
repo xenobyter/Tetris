@@ -23,6 +23,16 @@
           backgroundColor: tetromino.color
         }"
       ></div>
+      <div
+      v-for="(part, index) in stack.parts"
+      id="activeTetromino"
+      :key="`stack-${index}`"
+      :style="{
+        gridColumnStart: part.col,
+        gridRowStart: part.row,
+        backgroundColor: part.color
+      }"
+    ></div>
     </span>
     <span id="ctrl"> </span>
   </div></div>
