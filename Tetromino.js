@@ -3,7 +3,6 @@ import { makeMovedTetromino, makeTurnedTetromino } from "./temp_tetromino.js";
 
 export class Tetromino {
   constructor() {
-    //TODO: [FN-15] Implement preview next Tetromino
     this.type = Math.floor(Math.random() * 7);
     this.color = TYPES[this.type].color;
     this.parts = JSON.parse(JSON.stringify(TYPES[this.type].parts));

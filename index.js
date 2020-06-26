@@ -21,7 +21,9 @@ let app = new Vue({
       if (!this.tetromino.move(event, this.stack)) {
         // put Tetromino on stack
         this.stack.push(this.tetromino);
-        // progress with a new one
+        // clean completed lines
+        this.stack.cleanRows(this.tetromino);
+        // progress with a new Tetromino
         this.tetromino = new Tetromino();
       }
     }
