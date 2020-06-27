@@ -16,19 +16,19 @@ export class Tetromino {
       case "ArrowLeft":
       case "4":
       case "a":
-        if (this._doesFit(makeMovedTetromino(this, -1, 0), stack))
+        if (this.doesFit(makeMovedTetromino(this, -1, 0), stack))
           this.parts.forEach(part => part.col--);
         break;
       case "ArrowRight":
       case "6":
       case "d":
-        if (this._doesFit(makeMovedTetromino(this, 1, 0), stack))
+        if (this.doesFit(makeMovedTetromino(this, 1, 0), stack))
           this.parts.forEach(part => part.col++);
         break;
       case "ArrowDown":
       case "2":
       case "x":
-        if (this._doesFit(makeMovedTetromino(this, 0, 1), stack))
+        if (this.doesFit(makeMovedTetromino(this, 0, 1), stack))
           this.parts.forEach(part => part.row++);
         // move not possible!
         else {
@@ -41,7 +41,7 @@ export class Tetromino {
         // if (this.color != "#fcf914") this._turn(stack);
         if (this.color != "#fcf914") {
           const tempTetromino = makeTurnedTetromino(this);
-          if (this._doesFit(tempTetromino, stack))
+          if (this.doesFit(tempTetromino, stack))
             this.parts.forEach((part, index) => {
               part.row = tempTetromino[index].row;
               part.col = tempTetromino[index].col;
@@ -56,7 +56,7 @@ export class Tetromino {
    * @param {object} stack
    * @returns {boolean} true if move is possible
    */
-  _doesFit(tempTetromino, stack) {
+  doesFit(tempTetromino, stack) {
     let res = true;
     tempTetromino.some(tPart => {
       if (tPart.row > 20) res = false;

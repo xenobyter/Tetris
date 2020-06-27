@@ -5,9 +5,11 @@ let app = new Vue({
   data: function() {
     const tetromino = new Tetromino();
     const stack = new Stack();
+    let gameOver = false;
     return {
       tetromino,
-      stack
+      stack,
+      gameOver
     };
   },
   mounted: function() {
@@ -25,6 +27,10 @@ let app = new Vue({
         this.stack.cleanRows(this.tetromino);
         // progress with a new Tetromino
         this.tetromino = new Tetromino();
+        if (!this.tetromino.doesFit(this.tetromino.parts, this.stack)) {
+          this.tetromino.parts = [];
+          this.gameOver = true;
+        }
       }
     }
   },
