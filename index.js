@@ -6,17 +6,23 @@ let app = new Vue({
     const tetromino = new Tetromino();
     const stack = new Stack();
     let gameOver = false;
+    let timeOutHandler;
+    let speed = 1000;
     return {
       tetromino,
       stack,
-      gameOver
+      gameOver,
+      timeOutHandler,
+      speed
     };
   },
   mounted: function() {
       window.addEventListener("keydown", this.moveTetromino);
+      this.forceMoveDown();
   },
   destroyed() {
       window.removeEventListener("keydown", this.moveTetromino);
+      clearTimeout(this.timeOutHandler);
   },
   methods: {
     moveTetromino: function(event) {
@@ -32,6 +38,15 @@ let app = new Vue({
           this.gameOver = true;
         }
       }
+    },
+    forceMoveDown: function() {
+      const eventDown = new KeyboardEvent("forceMoveDown", {
+        key: "ArrowDown"
+      });
+      this.timeOutHandler = setTimeout(() => {
+        this.moveTetromino(eventDown);
+        this.forceMoveDown(this.speed);
+      }, this.speed);
     }
   },
 });
