@@ -17,8 +17,12 @@
 #ctrl {
   border-style: dotted;
   border-width: 0.1px;
-  width: calc(6 * var(--cell-size));
   margin: 0 1rem;
+  width: calc(6 * var(--cell-size));
+  height: calc(20 * var(--cell-size));
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(20, 1fr);
 }
 @media only screen and (max-width: 30em) {
   #tetris {
@@ -42,4 +46,34 @@
   color: #9b1e1e;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
     0 0 10px rgba(255, 255, 255, 0.5), 6px 6px 6px #ce5937;
+}
+#next {
+  grid-row-start: 3;
+  grid-column: 1 / 7;
+  text-align: center;
+  font-size: 3vmin;
+}
+h2#next {
+  grid-row-start: 2;
+  font-size: 4vmin;
+}
+#score {
+  grid-row-start: 11;
+  grid-column: 1 / 7;
+  text-align: center;
+  font-size: 3vmin;
+}
+h2#score {
+  grid-row-start: 10;
+  font-size: 4vmin;
+}
+#tetrominoCount {
+  grid-row-start: 17;
+  grid-column: 1 / 7;
+  text-align: center;
+  font-size: 3vmin;
+}
+h2#tetrominoCount {
+  grid-row-start: 16;
+  font-size: 4vmin;
 }

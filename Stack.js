@@ -21,6 +21,7 @@ export class Stack {
     });
     rowsToDelete.forEach(row => this.deleteRow(row));
     this.moveRowsDown(rowsToDelete);
+    return rowsToDelete.length;
   }
 
   countParts(row) {
@@ -46,7 +47,7 @@ export class Stack {
       rows.map(row => row)
     );
     this.parts.forEach(part => {
-      if (part.row < maxRow) part.row += rowsCount;
+      if (part.row <= maxRow) part.row += rowsCount;
     });
   }
 }

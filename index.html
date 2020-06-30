@@ -35,7 +35,14 @@
     ></div>
     <div v-if="gameOver" id="gameOver">Game over!</div>
     </span>
-    <span id="ctrl"> </span>
+    <span id="ctrl">
+      <h2 id="next">Nächstes</h2>
+      <div id="next"></div>
+      <h2 id="score">Punkte</h2>
+      <div id="score">{{ score }}</div>
+      <h2 id="tetrominoCount">Level</h2>
+      <div id="tetrominoCount">{{ Math.floor(tetrominoCount / 100) }}</div>
+    </span>
   </div></div>
 </body>
 </html>

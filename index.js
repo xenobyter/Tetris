@@ -8,12 +8,16 @@ let app = new Vue({
     let gameOver = false;
     let timeOutHandler;
     let speed = 1000;
+    let score = 0;
+    let tetrominoCount = 0;
     return {
       tetromino,
       stack,
       gameOver,
       timeOutHandler,
-      speed
+      speed,
+      score,
+      tetrominoCount
     };
   },
   mounted: function() {
@@ -29,13 +33,18 @@ let app = new Vue({
       if (!this.tetromino.move(event, this.stack)) {
         // put Tetromino on stack
         this.stack.push(this.tetromino);
+        this.score += 10;
+        this.tetrominoCount++;
+        this.speed = 1000 - Math.floor(this.tetrominoCount / 100) * 100;
         // clean completed lines
-        this.stack.cleanRows(this.tetromino);
+        let completedLines = this.stack.cleanRows(this.tetromino);
+        this.score += completedLines == 4 ? 1000 : completedLines * 100;
         // progress with a new Tetromino
         this.tetromino = new Tetromino();
         if (!this.tetromino.doesFit(this.tetromino.parts, this.stack)) {
           this.tetromino.parts = [];
           this.gameOver = true;
+          clearTimeout(this.timeOutHandler);
         }
       }
     },
