@@ -22,6 +22,7 @@ let app = new Vue({
   },
   mounted: function() {
       window.addEventListener("keydown", this.moveTetromino);
+      window.addEventListener("touchstart", this.touchhandler);
       this.forceMoveDown();
   },
   destroyed() {
@@ -48,6 +49,48 @@ let app = new Vue({
         }
       }
     },
+    touchhandler: function(event) {
+      function Rect(tetrominoParts) {
+        let minX = Infinity;
+        let minY = Infinity;
+        let maxX = 0;
+        let maxY = 0;
+        tetrominoParts.forEach(part => {
+          minX =
+            part.getBoundingClientRect().left < minX
+              ? part.getBoundingClientRect().left
+              : minX;
+          maxX =
+            part.getBoundingClientRect().right > maxX
+              ? part.getBoundingClientRect().right
+              : maxX;
+          minY =
+            part.getBoundingClientRect().top < minY
+              ? part.getBoundingClientRect().top
+              : minY;
+          maxY =
+            part.getBoundingClientRect().bottom > maxY
+              ? part.getBoundingClientRect().bottom
+              : maxY;
+        });
+        return { minX, maxX, minY, maxY };
+      }
+      const tetrominoRect = Rect(this.$refs.activeTetromino);
+      if (event.touches[0].clientY < tetrominoRect.minY) {
+        this.moveTetromino(new KeyboardEvent("Turn", { key: "ArrowUp" }));
+        return;
+      }
+      if (event.touches[0].clientY > tetrominoRect.maxY) {
+        this.moveTetromino(new KeyboardEvent("Down", { key: "ArrowDown" }));
+        return;
+      }
+      if (event.touches[0].clientX < tetrominoRect.minX) {
+        this.moveTetromino(new KeyboardEvent("Left", { key: "ArrowLeft" }));
+      }
+      if (event.touches[0].clientX > tetrominoRect.minX) {
+        this.moveTetromino(new KeyboardEvent("Right", { key: "ArrowRight" }));
+      }
+    },
     forceMoveDown: function() {
       const eventDown = new KeyboardEvent("forceMoveDown", {
         key: "ArrowDown"
@@ -56,6 +99,16 @@ let app = new Vue({
         this.moveTetromino(eventDown);
         this.forceMoveDown(this.speed);
       }, this.speed);
+    },
+    restart: function() {
+      this.speed = this.startSpeed;
+      this.tetrominoCount = 0;
+      this.score = 0;
+      this.stack.parts = [];
+      this.gameOver = false;
+      this.tetromino = new Tetromino();
+      this.timeOutHandler = 0;
+      this.forceMoveDown();
     }
   },
 });

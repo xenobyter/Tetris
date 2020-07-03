@@ -41,13 +41,10 @@ export class Stack {
   }
 
   moveRowsDown(rows) {
-    const rowsCount = rows.length;
-    const maxRow = Math.max.apply(
-      Math,
-      rows.map(row => row)
-    );
-    this.parts.forEach(part => {
-      if (part.row <= maxRow) part.row += rowsCount;
+    rows.forEach(row => {
+      this.parts.forEach(part => {
+        if (part.row <= row) part.row++;
+      });
     });
   }
 }

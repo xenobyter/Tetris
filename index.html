@@ -12,37 +12,50 @@
 <body>
   <div id="app">
     <div id="tetris">
-    <span id="grid">
-      <div
-        v-for="part in tetromino.parts"
-        id="activeTetromino"
-        :key="part.id"
-        :style="{
-          gridColumnStart: part.col,
-          gridRowStart: part.row,
-          backgroundColor: tetromino.color
-        }"
-      ></div>
-      <div
-      v-for="(part, index) in stack.parts"
-      id="activeTetromino"
-      :key="`stack-${index}`"
-      :style="{
-        gridColumnStart: part.col,
-        gridRowStart: part.row,
-        backgroundColor: part.color
-      }"
-    ></div>
-    <div v-if="gameOver" id="gameOver">Game over!</div>
-    </span>
-    <span id="ctrl">
-      <h2 id="next">Nächstes</h2>
-      <div id="next"></div>
-      <h2 id="score">Punkte</h2>
-      <div id="score">{{ score }}</div>
-      <h2 id="tetrominoCount">Level</h2>
-      <div id="tetrominoCount">{{ Math.floor(tetrominoCount / 100) }}</div>
-    </span>
-  </div></div>
+      <span id="grid">
+        <div
+          v-for="part in tetromino.parts"
+          id="activeTetromino"
+          ref="activeTetromino"
+          :key="part.id"
+          :style="{
+            gridColumnStart: part.col,
+            gridRowStart: part.row,
+            backgroundColor: tetromino.color
+          }"
+        ></div>
+        <div
+          v-for="(part, index) in stack.parts"
+          id="activeTetromino"
+          :key="`stack-${index}`"
+          :style="{
+            gridColumnStart: part.col,
+            gridRowStart: part.row,
+            backgroundColor: part.color
+          }"
+        ></div>
+        <div v-if="gameOver" id="gameOver">Game over!</div>
+      </span>
+      <span id="ctrl">
+        <h2 id="next">Nächstes</h2>
+        <div
+          v-for="(part, index) in tetromino.nextParts"
+          id="activeTetromino"
+          :key="`next-${index}`"
+          :style="{
+            gridColumnStart: part.col - 1,
+            gridRowStart: part.row + 2,
+            backgroundColor: tetromino.nextColor
+          }"
+        ></div>
+        <div id="next"></div>
+        <h2 id="score">Punkte</h2>
+        <div id="score">{{ score }}</div>
+        <h2 id="tetrominoCount">Level</h2>
+        <div id="tetrominoCount">{{ Math.floor(tetrominoCount / 100) }}</div>
+        <button v-if="gameOver" id="restart" @click="restart">Neustart</button>
+      </span>
+    </div>
+  </div>
 </body>
 </html>

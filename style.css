@@ -1,5 +1,5 @@
 #tetris {
-  --cell-size: calc((98vmin - 9rem) / 20);
+  --cell-size: calc((95vmin - 9rem) / 20);
   display: flex;
   margin: 1rem 0;
   height: 100%;
@@ -18,10 +18,10 @@
   border-style: dotted;
   border-width: 0.1px;
   margin: 0 1rem;
-  width: calc(6 * var(--cell-size));
   height: calc(20 * var(--cell-size));
+  width: calc(5 * var(--cell-size));
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(20, 1fr);
 }
 @media only screen and (max-width: 30em) {
@@ -33,7 +33,7 @@
 #activeTetromino {
   border-style: groove;
   border-width: 0.1px;
-  /* border-collapse: collapse; */
+  border-collapse: collapse;
   border-radius: calc(0.1 * var(--cell-size));
 }
 #gameOver {
@@ -49,7 +49,7 @@
 }
 #next {
   grid-row-start: 3;
-  grid-column: 1 / 7;
+  grid-column: 1 / 8;
   text-align: center;
   font-size: 3vmin;
 }
@@ -59,7 +59,7 @@ h2#next {
 }
 #score {
   grid-row-start: 11;
-  grid-column: 1 / 7;
+  grid-column: 1 / 8;
   text-align: center;
   font-size: 3vmin;
 }
@@ -68,12 +68,16 @@ h2#score {
   font-size: 4vmin;
 }
 #tetrominoCount {
-  grid-row-start: 17;
-  grid-column: 1 / 7;
+  grid-row-start: 15;
+  grid-column: 1 / 8;
   text-align: center;
   font-size: 3vmin;
 }
 h2#tetrominoCount {
-  grid-row-start: 16;
+  grid-row-start: 14;
   font-size: 4vmin;
+}
+#restart {
+  grid-row-start: 19;
+  grid-column: 2 / 7;
 }

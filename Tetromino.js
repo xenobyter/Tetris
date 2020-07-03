@@ -2,10 +2,13 @@ import TYPES from "./types.js";
 import { makeMovedTetromino, makeTurnedTetromino } from "./temp_tetromino.js";
 
 export class Tetromino {
-  constructor() {
-    this.type = Math.floor(Math.random() * 7);
+  constructor(type = Math.floor(Math.random() * 7)) {
+    this.type = type;
+    this.next = Math.floor(Math.random() * 7);
     this.color = TYPES[this.type].color;
     this.parts = JSON.parse(JSON.stringify(TYPES[this.type].parts));
+    this.nextParts = JSON.parse(JSON.stringify(TYPES[this.next].parts));
+    this.nextColor = TYPES[this.next].color;
   }
   /**
    * @description Move the Tetromino left, right and down
@@ -27,7 +30,7 @@ export class Tetromino {
         break;
       case "ArrowDown":
       case "2":
-      case "x":
+      case "s":
         if (this.doesFit(makeMovedTetromino(this, 0, 1), stack))
           this.parts.forEach(part => part.row++);
         // move not possible!
